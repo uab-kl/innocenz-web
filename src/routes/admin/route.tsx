@@ -1,6 +1,6 @@
-import { AdminLayout } from '#/components/layout/admin-layout'
+import { AdminLayout } from '@/components/layout/admin-layout'
 import { createFileRoute } from '@tanstack/react-router'
-import { ensureAuthenticated } from '#/lib/auth/guards'
+import { ensureAuthenticated } from '@/lib/auth/guards'
 
 export const Route = createFileRoute('/admin')({
   beforeLoad: () => {

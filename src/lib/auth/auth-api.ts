@@ -1,4 +1,4 @@
-import { getPublicClient } from '#/lib/axios-v1'
+import { getPublicClient } from '@/lib/axios-v1'
 import { saveAuthTokens, clearAuthTokens } from './auth-storage'
 
 export interface ApiResponse<T> {

@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
-import type { RbacSection } from '#/constants/rbac-sections'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import type { RbacSection } from '@/constants/rbac-sections'
 
 export function RbacSectionPage({ section }: { section: RbacSection }) {
   const Icon = section.icon

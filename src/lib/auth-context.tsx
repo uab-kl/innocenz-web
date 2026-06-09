@@ -6,14 +6,14 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { hasValidTokens } from '#/lib/auth/auth-storage'
-import { kickToLogin } from '#/lib/auth/guards'
+import { hasValidTokens } from '@/lib/auth/auth-storage'
+import { kickToLogin } from '@/lib/auth/guards'
 import {
   login as apiLogin,
   type LoginRequest,
   type LoginResponse,
   type ApiResponse,
-} from '#/lib/auth/auth-api'
+} from '@/lib/auth/auth-api'
 
 interface AuthContextType {
   isAuthenticated: boolean

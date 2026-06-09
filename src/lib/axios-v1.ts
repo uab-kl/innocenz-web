@@ -4,8 +4,8 @@ import {
   getRefreshToken,
   saveAccessToken,
   saveRefreshToken,
-} from '#/lib/auth/auth-storage'
-import { env } from '#/env'
+} from '@/lib/auth/auth-storage'
+import { env } from '@/env'
 
 let browserClient: AxiosInstance | null = null
 

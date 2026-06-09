@@ -1,6 +1,6 @@
 import { createRouter } from '@tanstack/react-router'
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query'
-import * as TanstackQuery from '#/integrations/tanstack-query/root-provider'
+import * as TanstackQuery from '@/integrations/tanstack-query/root-provider'
 
 import {
   routerWithApolloClient,
@@ -9,10 +9,10 @@ import {
 } from '@apollo/client-integration-tanstack-start'
 import { HttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { getAccessToken } from '#/lib/auth/auth-storage'
-import { env } from '#/env'
+import { getAccessToken } from '@/lib/auth/auth-storage'
+import { env } from '@/env'
 
-import { deLocalizeUrl, localizeUrl } from '#/paraglide/runtime'
+import { deLocalizeUrl, localizeUrl } from '@/paraglide/runtime'
 
 import { routeTree } from './routeTree.gen'
 

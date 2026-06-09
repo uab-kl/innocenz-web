@@ -11,20 +11,20 @@ import {
   AlertCircle,
 } from 'lucide-react'
 import axios from 'axios'
-import { useAuthActions } from '#/lib/auth/use-auth-actions'
-import { Button } from '#/components/ui/button'
+import { useAuthActions } from '@/lib/auth/use-auth-actions'
+import { Button } from '@/components/ui/button'
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '#/components/ui/field'
+} from '@/components/ui/field'
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from '#/components/ui/input-group'
+} from '@/components/ui/input-group'
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,

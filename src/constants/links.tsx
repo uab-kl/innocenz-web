@@ -1,7 +1,7 @@
 import { FileText, LayoutDashboard, Shield, Users } from 'lucide-react'
 import { z } from 'zod'
-import { rbacSections } from '#/constants/rbac-sections'
-import { userTypes } from '#/constants/user-types'
+import { rbacSections } from '@/constants/rbac-sections'
+import { userTypes } from '@/constants/user-types'
 
 const ChildNavLinkSchema = z.object({
   key: z.string(),

@@ -5,18 +5,18 @@ import {
   RefreshCw,
   Shield,
 } from 'lucide-react'
-import { Badge } from '#/components/ui/badge'
-import { Button } from '#/components/ui/button'
-import { cn } from '#/lib/utils'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '#/components/ui/select'
-import type { RbacRole } from '#/services/rbac'
-import { getErrorMessage, statusColors } from '#/lib/utils'
+} from '@/components/ui/select'
+import type { RbacRole } from '@/services/rbac'
+import { getErrorMessage, statusColors } from '@/lib/utils'
 
 export type RoleStatusFilter = 'all' | 'active' | 'inactive'
 

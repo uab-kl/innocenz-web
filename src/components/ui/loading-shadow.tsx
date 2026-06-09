@@ -1,6 +1,6 @@
 import { useIsFetching, useIsMutating } from '@tanstack/react-query'
 
-import { cn } from '#/lib/utils'
+import { cn } from '@/lib/utils'
 
 export function GlobalLoadingShadow({ className }: { className?: string }) {
   const isFetching = useIsFetching()

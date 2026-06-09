@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '#/components/ui/card'
+} from '@/components/ui/card'
 
 export const Route = createFileRoute('/admin/settings')({
   component: SettingsComponent,

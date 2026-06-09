@@ -4,17 +4,17 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import axios from 'axios'
 import { Shield } from 'lucide-react'
 import { toast } from 'sonner'
-import { CreateRoleSheet } from '#/components/rbac/create-role-sheet'
-import { RolesGrid, type RoleStatusFilter } from '#/components/rbac/roles-grid'
-import { useAuth } from '#/lib/auth-context'
-import { getErrorMessage } from '#/lib/utils'
+import { CreateRoleSheet } from '@/components/rbac/create-role-sheet'
+import { RolesGrid, type RoleStatusFilter } from '@/components/rbac/roles-grid'
+import { useAuth } from '@/lib/auth-context'
+import { getErrorMessage } from '@/lib/utils'
 import {
   createRole,
   fetchRoles,
   type CreateRoleInput,
   type RbacRole,
   type RolesQueryParams,
-} from '#/services/rbac'
+} from '@/services/rbac'
 
 export const Route = createFileRoute('/admin/rbac/role')({
   component: RolePage,

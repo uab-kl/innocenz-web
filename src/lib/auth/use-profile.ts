@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { getPublicClient } from '#/lib/axios-v1'
-import { getAccessToken, hasValidTokens } from '#/lib/auth/auth-storage'
-import type { User } from '#/lib/auth'
+import { getPublicClient } from '@/lib/axios-v1'
+import { getAccessToken, hasValidTokens } from '@/lib/auth/auth-storage'
+import type { User } from '@/lib/auth'
 
 interface ApiResponse<T> {
   success: boolean

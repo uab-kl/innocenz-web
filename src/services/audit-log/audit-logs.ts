@@ -1,4 +1,4 @@
-import { getClient } from '#/lib/axios-v1'
+import { getClient } from '@/lib/axios-v1'
 import type {
   AuditLogApiResponse,
   AuditLogFiltersApiResponse,
@@ -30,6 +30,7 @@ export async function fetchAuditLogs(
     dateFrom: params.dateFrom,
     dateTo: params.dateTo,
     userId: params.userId,
+    role: params.role,
     entity: params.entity,
     entityId: params.entityId,
     action: params.action,
@@ -40,7 +41,7 @@ export async function fetchAuditLogs(
   })
 
   const response = await client.get<AuditLogsApiResponse>(
-    `/audit-logs${queryString}`,
+    `/audit-log${queryString}`,
   )
   return response.data
 }
@@ -50,7 +51,7 @@ export async function fetchAuditLogById(
   onRefreshFail: () => void,
 ): Promise<AuditLogApiResponse> {
   const client = getClient(onRefreshFail)
-  const response = await client.get<AuditLogApiResponse>(`/audit-logs/${id}`)
+  const response = await client.get<AuditLogApiResponse>(`/audit-log/${id}`)
   return response.data
 }
 
@@ -59,7 +60,7 @@ export async function fetchAuditLogActions(
 ): Promise<AuditLogFiltersApiResponse> {
   const client = getClient(onRefreshFail)
   const response = await client.get<AuditLogFiltersApiResponse>(
-    '/audit-logs/actions',
+    '/audit-log/actions',
   )
   return response.data
 }
@@ -69,7 +70,17 @@ export async function fetchAuditLogEntities(
 ): Promise<AuditLogFiltersApiResponse> {
   const client = getClient(onRefreshFail)
   const response = await client.get<AuditLogFiltersApiResponse>(
-    '/audit-logs/entities',
+    '/audit-log/entities',
+  )
+  return response.data
+}
+
+export async function fetchAuditLogRoles(
+  onRefreshFail: () => void,
+): Promise<AuditLogFiltersApiResponse> {
+  const client = getClient(onRefreshFail)
+  const response = await client.get<AuditLogFiltersApiResponse>(
+    '/audit-log/roles',
   )
   return response.data
 }

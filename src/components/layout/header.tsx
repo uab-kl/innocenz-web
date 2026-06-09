@@ -1,11 +1,11 @@
 import { ChevronDown, LogOut, User as UserIcon } from 'lucide-react'
 import { useLocation } from '@tanstack/react-router'
-import { Button } from '#/components/ui/button'
-import { useAuthActions } from '#/lib/auth/use-auth-actions'
-import { useCurrentUser } from '#/lib/auth/use-current-user'
-import { allNavigationItems } from '#/constants/links'
-import { getRbacSectionByKey } from '#/constants/rbac-sections'
-import { getUserTypeByKey } from '#/constants/user-types'
+import { Button } from '@/components/ui/button'
+import { useAuthActions } from '@/lib/auth/use-auth-actions'
+import { useCurrentUser } from '@/lib/auth/use-current-user'
+import { allNavigationItems } from '@/constants/links'
+import { getRbacSectionByKey } from '@/constants/rbac-sections'
+import { getUserTypeByKey } from '@/constants/user-types'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +13,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
+} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 function useBreadcrumbSegments() {
   const location = useLocation()

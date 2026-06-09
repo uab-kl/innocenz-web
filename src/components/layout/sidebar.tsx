@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
 import { ChevronDown } from 'lucide-react'
-import { useCurrentUser } from '#/lib/auth/use-current-user'
-import { ScrollArea } from '#/components/ui/scroll-area'
+import { useCurrentUser } from '@/lib/auth/use-current-user'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Sidebar as SidebarUi,
   SidebarContent,
@@ -14,9 +14,9 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '#/components/ui/sidebar'
-import { allNavigationItems, type NavLinkSchemaType } from '#/constants/links'
-import { cn } from '#/lib/utils'
+} from '@/components/ui/sidebar'
+import { allNavigationItems, type NavLinkSchemaType } from '@/constants/links'
+import { cn } from '@/lib/utils'
 
 export function Sidebar() {
   const location = useLocation()

@@ -1,4 +1,4 @@
-import type { Pagination } from '#/lib/pagination/pagination'
+import type { Pagination } from '@/lib/pagination/pagination'
 
 export interface RbacRole {
   roleId: string

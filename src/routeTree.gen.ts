@@ -14,9 +14,10 @@ import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
-import { Route as AdminAuditLogRouteImport } from './routes/admin/audit-log'
 import { Route as AdminUserManagementRouteRouteImport } from './routes/admin/user-management/route'
 import { Route as AdminRbacRouteRouteImport } from './routes/admin/rbac/route'
+import { Route as AdminAuditLogRouteRouteImport } from './routes/admin/audit-log/route'
+import { Route as AdminAuditLogIndexRouteImport } from './routes/admin/audit-log/index'
 import { Route as AdminUserManagementPrRouteImport } from './routes/admin/user-management/pr'
 import { Route as AdminUserManagementOutletRouteImport } from './routes/admin/user-management/outlet'
 import { Route as AdminUserManagementAgencyRouteImport } from './routes/admin/user-management/agency'
@@ -24,6 +25,7 @@ import { Route as AdminUserManagementAdminRouteImport } from './routes/admin/use
 import { Route as AdminRbacRoleRouteImport } from './routes/admin/rbac/role'
 import { Route as AdminRbacPermissionRouteImport } from './routes/admin/rbac/permission'
 import { Route as AdminRbacModuleRouteImport } from './routes/admin/rbac/module'
+import { Route as AdminAuditLogRoleRouteImport } from './routes/admin/audit-log/$role'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -50,11 +52,6 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AdminRouteRoute,
 } as any)
-const AdminAuditLogRoute = AdminAuditLogRouteImport.update({
-  id: '/audit-log',
-  path: '/audit-log',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
 const AdminUserManagementRouteRoute =
   AdminUserManagementRouteRouteImport.update({
     id: '/user-management',
@@ -65,6 +62,16 @@ const AdminRbacRouteRoute = AdminRbacRouteRouteImport.update({
   id: '/rbac',
   path: '/rbac',
   getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAuditLogRouteRoute = AdminAuditLogRouteRouteImport.update({
+  id: '/audit-log',
+  path: '/audit-log',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAuditLogIndexRoute = AdminAuditLogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminAuditLogRouteRoute,
 } as any)
 const AdminUserManagementPrRoute = AdminUserManagementPrRouteImport.update({
   id: '/pr',
@@ -104,16 +111,22 @@ const AdminRbacModuleRoute = AdminRbacModuleRouteImport.update({
   path: '/module',
   getParentRoute: () => AdminRbacRouteRoute,
 } as any)
+const AdminAuditLogRoleRoute = AdminAuditLogRoleRouteImport.update({
+  id: '/$role',
+  path: '/$role',
+  getParentRoute: () => AdminAuditLogRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/audit-log': typeof AdminAuditLogRouteRouteWithChildren
   '/admin/rbac': typeof AdminRbacRouteRouteWithChildren
   '/admin/user-management': typeof AdminUserManagementRouteRouteWithChildren
-  '/admin/audit-log': typeof AdminAuditLogRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/audit-log/$role': typeof AdminAuditLogRoleRoute
   '/admin/rbac/module': typeof AdminRbacModuleRoute
   '/admin/rbac/permission': typeof AdminRbacPermissionRoute
   '/admin/rbac/role': typeof AdminRbacRoleRoute
@@ -121,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/admin/user-management/agency': typeof AdminUserManagementAgencyRoute
   '/admin/user-management/outlet': typeof AdminUserManagementOutletRoute
   '/admin/user-management/pr': typeof AdminUserManagementPrRoute
+  '/admin/audit-log/': typeof AdminAuditLogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -128,9 +142,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/admin/rbac': typeof AdminRbacRouteRouteWithChildren
   '/admin/user-management': typeof AdminUserManagementRouteRouteWithChildren
-  '/admin/audit-log': typeof AdminAuditLogRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/audit-log/$role': typeof AdminAuditLogRoleRoute
   '/admin/rbac/module': typeof AdminRbacModuleRoute
   '/admin/rbac/permission': typeof AdminRbacPermissionRoute
   '/admin/rbac/role': typeof AdminRbacRoleRoute
@@ -138,17 +152,19 @@ export interface FileRoutesByTo {
   '/admin/user-management/agency': typeof AdminUserManagementAgencyRoute
   '/admin/user-management/outlet': typeof AdminUserManagementOutletRoute
   '/admin/user-management/pr': typeof AdminUserManagementPrRoute
+  '/admin/audit-log': typeof AdminAuditLogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/audit-log': typeof AdminAuditLogRouteRouteWithChildren
   '/admin/rbac': typeof AdminRbacRouteRouteWithChildren
   '/admin/user-management': typeof AdminUserManagementRouteRouteWithChildren
-  '/admin/audit-log': typeof AdminAuditLogRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/audit-log/$role': typeof AdminAuditLogRoleRoute
   '/admin/rbac/module': typeof AdminRbacModuleRoute
   '/admin/rbac/permission': typeof AdminRbacPermissionRoute
   '/admin/rbac/role': typeof AdminRbacRoleRoute
@@ -156,6 +172,7 @@ export interface FileRoutesById {
   '/admin/user-management/agency': typeof AdminUserManagementAgencyRoute
   '/admin/user-management/outlet': typeof AdminUserManagementOutletRoute
   '/admin/user-management/pr': typeof AdminUserManagementPrRoute
+  '/admin/audit-log/': typeof AdminAuditLogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -163,11 +180,12 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/login'
+    | '/admin/audit-log'
     | '/admin/rbac'
     | '/admin/user-management'
-    | '/admin/audit-log'
     | '/admin/dashboard'
     | '/admin/settings'
+    | '/admin/audit-log/$role'
     | '/admin/rbac/module'
     | '/admin/rbac/permission'
     | '/admin/rbac/role'
@@ -175,6 +193,7 @@ export interface FileRouteTypes {
     | '/admin/user-management/agency'
     | '/admin/user-management/outlet'
     | '/admin/user-management/pr'
+    | '/admin/audit-log/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -182,9 +201,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/admin/rbac'
     | '/admin/user-management'
-    | '/admin/audit-log'
     | '/admin/dashboard'
     | '/admin/settings'
+    | '/admin/audit-log/$role'
     | '/admin/rbac/module'
     | '/admin/rbac/permission'
     | '/admin/rbac/role'
@@ -192,16 +211,18 @@ export interface FileRouteTypes {
     | '/admin/user-management/agency'
     | '/admin/user-management/outlet'
     | '/admin/user-management/pr'
+    | '/admin/audit-log'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/login'
+    | '/admin/audit-log'
     | '/admin/rbac'
     | '/admin/user-management'
-    | '/admin/audit-log'
     | '/admin/dashboard'
     | '/admin/settings'
+    | '/admin/audit-log/$role'
     | '/admin/rbac/module'
     | '/admin/rbac/permission'
     | '/admin/rbac/role'
@@ -209,6 +230,7 @@ export interface FileRouteTypes {
     | '/admin/user-management/agency'
     | '/admin/user-management/outlet'
     | '/admin/user-management/pr'
+    | '/admin/audit-log/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -254,13 +276,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/audit-log': {
-      id: '/admin/audit-log'
-      path: '/audit-log'
-      fullPath: '/admin/audit-log'
-      preLoaderRoute: typeof AdminAuditLogRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
     '/admin/user-management': {
       id: '/admin/user-management'
       path: '/user-management'
@@ -274,6 +289,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/rbac'
       preLoaderRoute: typeof AdminRbacRouteRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/audit-log': {
+      id: '/admin/audit-log'
+      path: '/audit-log'
+      fullPath: '/admin/audit-log'
+      preLoaderRoute: typeof AdminAuditLogRouteRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/audit-log/': {
+      id: '/admin/audit-log/'
+      path: '/'
+      fullPath: '/admin/audit-log/'
+      preLoaderRoute: typeof AdminAuditLogIndexRouteImport
+      parentRoute: typeof AdminAuditLogRouteRoute
     }
     '/admin/user-management/pr': {
       id: '/admin/user-management/pr'
@@ -324,8 +353,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRbacModuleRouteImport
       parentRoute: typeof AdminRbacRouteRoute
     }
+    '/admin/audit-log/$role': {
+      id: '/admin/audit-log/$role'
+      path: '/$role'
+      fullPath: '/admin/audit-log/$role'
+      preLoaderRoute: typeof AdminAuditLogRoleRouteImport
+      parentRoute: typeof AdminAuditLogRouteRoute
+    }
   }
 }
+
+interface AdminAuditLogRouteRouteChildren {
+  AdminAuditLogRoleRoute: typeof AdminAuditLogRoleRoute
+  AdminAuditLogIndexRoute: typeof AdminAuditLogIndexRoute
+}
+
+const AdminAuditLogRouteRouteChildren: AdminAuditLogRouteRouteChildren = {
+  AdminAuditLogRoleRoute: AdminAuditLogRoleRoute,
+  AdminAuditLogIndexRoute: AdminAuditLogIndexRoute,
+}
+
+const AdminAuditLogRouteRouteWithChildren =
+  AdminAuditLogRouteRoute._addFileChildren(AdminAuditLogRouteRouteChildren)
 
 interface AdminRbacRouteRouteChildren {
   AdminRbacModuleRoute: typeof AdminRbacModuleRoute
@@ -364,17 +413,17 @@ const AdminUserManagementRouteRouteWithChildren =
   )
 
 interface AdminRouteRouteChildren {
+  AdminAuditLogRouteRoute: typeof AdminAuditLogRouteRouteWithChildren
   AdminRbacRouteRoute: typeof AdminRbacRouteRouteWithChildren
   AdminUserManagementRouteRoute: typeof AdminUserManagementRouteRouteWithChildren
-  AdminAuditLogRoute: typeof AdminAuditLogRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAuditLogRouteRoute: AdminAuditLogRouteRouteWithChildren,
   AdminRbacRouteRoute: AdminRbacRouteRouteWithChildren,
   AdminUserManagementRouteRoute: AdminUserManagementRouteRouteWithChildren,
-  AdminAuditLogRoute: AdminAuditLogRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminSettingsRoute: AdminSettingsRoute,
 }

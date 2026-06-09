@@ -5,15 +5,16 @@ import {
   Monitor,
   User as UserIcon,
 } from 'lucide-react'
-import { Badge } from '#/components/ui/badge'
-import { Card, CardContent } from '#/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '#/components/ui/dialog'
-import { ScrollArea } from '#/components/ui/scroll-area'
+} from '@/components/ui/dialog'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Table,
   TableBody,
@@ -21,14 +22,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '#/components/ui/table'
-import type { AuditLog } from '#/services/audit-log'
+} from '@/components/ui/table'
+import type { AuditLog } from '@/services/audit-log'
 import {
   formatAuditDate,
   formatAuditEntity,
+  formatRoleLabel,
   getAuditActionBadgeColor,
   truncateId,
-} from '#/lib/utils'
+} from '@/lib/utils'
 
 interface AuditLogDetailDialogProps {
   log: AuditLog | null
@@ -63,9 +65,9 @@ export function AuditLogDetailDialog({
           <div className="flex items-center justify-between gap-4 pr-8">
             <div>
               <DialogTitle className="text-2xl">Audit Log Detail</DialogTitle>
-              <p className="text-sm text-muted-foreground mt-1">
+              <DialogDescription>
                 {formatAuditEntity(log.entity)}
-              </p>
+              </DialogDescription>
             </div>
             <Badge
               variant="outline"
@@ -106,8 +108,8 @@ export function AuditLogDetailDialog({
                       (log.userId ? truncateId(log.userId) : 'System')}
                   </p>
                   {log.role && (
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {log.role}
+                    <p className="text-sm text-muted-foreground mt-1 capitalize">
+                      {formatRoleLabel(log.role)}
                     </p>
                   )}
                 </CardContent>

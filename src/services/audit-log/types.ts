@@ -1,4 +1,4 @@
-import type { Pagination } from '#/lib/pagination/pagination'
+import type { Pagination } from '@/lib/pagination/pagination'
 
 export interface AuditLog {
   auditLogId: number
@@ -41,6 +41,7 @@ export interface AuditLogsQueryParams {
   dateFrom?: string
   dateTo?: string
   userId?: string
+  role?: string
   entity?: string
   entityId?: string
   action?: string

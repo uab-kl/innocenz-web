@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '#/components/ui/button'
-import type { Pagination as PaginationType } from '#/lib/pagination/pagination'
+import { Button } from '@/components/ui/button'
+import type { Pagination as PaginationType } from '@/lib/pagination/pagination'
 
 interface PaginationProps {
   pagination: PaginationType | undefined

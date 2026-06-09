@@ -1,5 +1,5 @@
 import { redirect } from '@tanstack/react-router'
-import { clearAuthTokens, getAccessToken } from '#/lib/auth/auth-storage'
+import { clearAuthTokens, getAccessToken } from '@/lib/auth/auth-storage'
 
 export function ensureAuthenticated() {
   if (typeof window === 'undefined') return

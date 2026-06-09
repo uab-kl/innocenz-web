@@ -5,9 +5,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '#/components/ui/card'
+} from '@/components/ui/card'
 import { LayoutDashboard, Users, Shield, Settings } from 'lucide-react'
-import { useCurrentUser } from '#/lib/auth/use-current-user'
+import { useCurrentUser } from '@/lib/auth/use-current-user'
 
 export const Route = createFileRoute('/admin/dashboard')({
   component: DashboardComponent,

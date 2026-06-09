@@ -7,15 +7,15 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
-import TanStackQueryDevtools from '#/integrations/tanstack-query/devtools'
-import { AuthProvider } from '#/lib/auth-context'
-import { getLocale } from '#/paraglide/runtime'
+import TanStackQueryDevtools from '@/integrations/tanstack-query/devtools'
+import { AuthProvider } from '@/lib/auth-context'
+import { getLocale } from '@/paraglide/runtime'
 import appCss from '../styles.css?url'
 import type { ApolloClientIntegration } from '@apollo/client-integration-tanstack-start'
 import type { QueryClient } from '@tanstack/react-query'
-import { SidebarProvider } from '#/components/ui/sidebar'
-import { Toaster } from '#/components/ui/sonner'
-import { TooltipProvider } from '#/components/ui/tooltip'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { Toaster } from '@/components/ui/sonner'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 interface MyRouterContext extends ApolloClientIntegration.RouterContext {
   queryClient: QueryClient

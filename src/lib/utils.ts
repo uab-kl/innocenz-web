@@ -73,3 +73,7 @@ export function formatAuditEntity(entity: string) {
   if (entity === 'Role') return 'role'
   return entity
 }
+
+export function formatRoleLabel(role: string) {
+  return role.charAt(0).toUpperCase() + role.slice(1)
+}

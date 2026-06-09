@@ -1,6 +1,6 @@
-import { useAuth } from '#/lib/auth-context'
+import { useAuth } from '@/lib/auth-context'
 import { useProfile } from './use-profile'
-import type { User } from '#/lib/auth'
+import type { User } from '@/lib/auth'
 
 interface CurrentUserResult {
   user: User | null

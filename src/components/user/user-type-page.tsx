@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
-import type { userTypes } from '#/constants/user-types'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import type { userTypes } from '@/constants/user-types'
 
 type UserType = (typeof userTypes)[number]
 

@@ -1,6 +1,6 @@
-import { Header } from '#/components/layout/header'
-import { Sidebar } from '#/components/layout/sidebar'
-import { GlobalLoadingShadow } from '#/components/ui/loading-shadow'
+import { Header } from '@/components/layout/header'
+import { Sidebar } from '@/components/layout/sidebar'
+import { GlobalLoadingShadow } from '@/components/ui/loading-shadow'
 import { Outlet } from '@tanstack/react-router'
 
 export function AdminLayout() {

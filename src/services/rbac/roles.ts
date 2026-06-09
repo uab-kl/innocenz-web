@@ -1,4 +1,4 @@
-import { getClient } from '#/lib/axios-v1'
+import { getClient } from '@/lib/axios-v1'
 import type { CreateRoleInput } from './schemas'
 import type { RoleApiResponse, RolesApiResponse, RolesQueryParams } from './types'
 

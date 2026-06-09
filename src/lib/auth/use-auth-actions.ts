@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useAuth } from '#/lib/auth-context'
+import { useAuth } from '@/lib/auth-context'
 import { profileQueryKey } from './use-profile'
 import type { LoginRequest, LoginUser } from './auth-api'
-import type { User } from '#/lib/auth'
+import type { User } from '@/lib/auth'
 
 function loginUserToProfile(user: LoginUser): User {
   return {

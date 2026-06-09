@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { RbacSectionPage } from '#/components/rbac'
-import { getRbacSectionByKey } from '#/constants/rbac-sections'
+import { RbacSectionPage } from '@/components/rbac'
+import { getRbacSectionByKey } from '@/constants/rbac-sections'
 
 export const Route = createFileRoute('/admin/rbac/module')({
   component: ModulePage,

@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { useForm } from '@tanstack/react-form'
 import { AlertCircle, Loader2, Shield } from 'lucide-react'
-import { Button } from '#/components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '#/components/ui/field'
-import { Input } from '#/components/ui/input'
+} from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
 import {
   Sheet,
   SheetContent,
@@ -16,10 +16,10 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from '#/components/ui/sheet'
-import { Switch } from '#/components/ui/switch'
-import { getErrorMessage } from '#/lib/utils'
-import { RoleSchema, type CreateRoleInput } from '#/services/rbac'
+} from '@/components/ui/sheet'
+import { Switch } from '@/components/ui/switch'
+import { getErrorMessage } from '@/lib/utils'
+import { RoleSchema, type CreateRoleInput } from '@/services/rbac'
 
 interface CreateRoleSheetProps {
   open: boolean
