@@ -42,7 +42,6 @@ import {
   getAuditLogRoleByKey,
   type AuditLogRoleKey,
 } from '@/constants/audit-log-roles'
-import { useAuth } from '@/lib/auth-context'
 import {
   formatAuditDate,
   formatAuditEntity,
@@ -68,7 +67,6 @@ interface AuditLogTableViewProps {
 export function AuditLogTableView({ role }: AuditLogTableViewProps) {
   const roleMeta = getAuditLogRoleByKey(role)!
   const RoleIcon = roleMeta.icon
-  const { logout } = useAuth()
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [selectedAction, setSelectedAction] = useState('all')
@@ -103,7 +101,7 @@ export function AuditLogTableView({ role }: AuditLogTableViewProps) {
     isFetching,
   } = useQuery({
     queryKey: ['audit-log', role, queryParams],
-    queryFn: () => fetchAuditLogs(queryParams, logout),
+    queryFn: () => fetchAuditLogs(queryParams),
     placeholderData: keepPreviousData,
     staleTime: 30_000,
     retry: 2,
@@ -111,13 +109,13 @@ export function AuditLogTableView({ role }: AuditLogTableViewProps) {
 
   const { data: actionsData } = useQuery({
     queryKey: ['audit-log-actions'],
-    queryFn: () => fetchAuditLogActions(logout),
+    queryFn: () => fetchAuditLogActions(),
     staleTime: 5 * 60_000,
   })
 
   const { data: entitiesData } = useQuery({
     queryKey: ['audit-log-entities'],
-    queryFn: () => fetchAuditLogEntities(logout),
+    queryFn: () => fetchAuditLogEntities(),
     staleTime: 5 * 60_000,
   })
 

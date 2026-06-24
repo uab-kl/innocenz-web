@@ -2,14 +2,14 @@ import { createFileRoute } from '@tanstack/react-router'
 import { RbacSectionPage } from '@/components/rbac'
 import { getRbacSectionByKey } from '@/constants/rbac-sections'
 
-export const Route = createFileRoute('/admin/rbac/permission')({
-  component: PermissionPage,
+export const Route = createFileRoute('/(admin)/admin/rbac/module')({
+  component: ModulePage,
   head: () => ({
-    meta: [{ title: 'Permission — Innocenz Admin' }],
+    meta: [{ title: 'Module — Innocenz Admin' }],
   }),
 })
 
-function PermissionPage() {
-  const section = getRbacSectionByKey('permission')!
+function ModulePage() {
+  const section = getRbacSectionByKey('module')!
   return <RbacSectionPage section={section} />
 }

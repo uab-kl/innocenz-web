@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { AuditLogRolePicker } from '@/components/audit-log'
 
-export const Route = createFileRoute('/admin/audit-log/')({
+export const Route = createFileRoute('/(admin)/admin/audit-log/')({
   component: AuditLogIndexPage,
   head: () => ({
     meta: [

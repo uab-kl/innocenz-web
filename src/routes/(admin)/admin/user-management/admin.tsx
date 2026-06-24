@@ -18,7 +18,7 @@ import {
   type CreateAdminInput,
 } from '@/services/admin'
 
-export const Route = createFileRoute('/admin/user-management/admin')({
+export const Route = createFileRoute('/(admin)/admin/user-management/admin')({
   component: AdminUsersPage,
   head: () => ({
     meta: [{ title: 'Admin Users — Innocenz Admin' }],

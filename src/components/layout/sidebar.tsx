@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, ChevronLeft } from 'lucide-react'
 import { useCurrentUser } from '@/lib/auth/use-current-user'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Sidebar as SidebarUi,
   SidebarContent,
-  SidebarGroup,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+  useSidebar,
 } from '@/components/ui/sidebar'
-import { allNavigationItems, type NavLinkSchemaType } from '@/constants/links'
+import {
+  sidebarSections,
+  type SidebarNavItem,
+  type SidebarSection,
+} from '@/constants/links'
 import { cn } from '@/lib/utils'
 
 export function Sidebar() {
   const location = useLocation()
   const { user } = useCurrentUser()
+  const { state } = useSidebar()
+  const collapsed = state === 'collapsed'
 
   const isActive = (href: string) => {
     const cleanPathname = location.pathname.replace(/^\/en/, '')
@@ -32,11 +32,6 @@ export function Sidebar() {
       pathnameWithoutQuery === hrefWithoutQuery ||
       pathnameWithoutQuery.startsWith(`${hrefWithoutQuery}/`)
     )
-  }
-
-  const isSectionActive = (link: NavLinkSchemaType) => {
-    if (!link.children?.length) return isActive(link.href)
-    return link.children.some((child) => isActive(child.href))
   }
 
   const hasPermission = (permission: string) => {
@@ -51,126 +46,141 @@ export function Sidebar() {
     return grants.includes('*') || grants.includes(permission)
   }
 
-  const accessControl = (link: NavLinkSchemaType) => {
+  const canAccess = (item: SidebarNavItem) => {
     if (!user?.readPermission?.length) {
-      return link.allowedPermission.includes('*')
+      return item.allowedPermission.includes('*')
     }
 
-    return link.allowedPermission.some(hasPermission)
+    return item.allowedPermission.some(hasPermission)
   }
 
   return (
-    <SidebarUi className="space-y-4 rounded-lg" collapsible="none">
-      <SidebarHeader>
-        <div className="relative z-20 flex items-center justify-center px-2 py-2 text-base font-medium">
-          <div className="flex flex-col items-center gap-1">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gold-light to-gold-deep text-ink text-lg font-bold shadow-[0_0_24px_rgba(212,175,55,0.35)]">
-              Z
-            </div>
-            <span className="text-sm font-semibold tracking-tight text-white">
+    <SidebarUi
+      className="admin-sidebar relative border-r border-sidebar-border"
+      collapsible="icon"
+    >
+      <SidebarHeader className="border-b border-sidebar-border/60 py-4">
+        <div className="flex items-center justify-center gap-2 px-2">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-gold-light to-gold-deep text-ink text-base font-bold shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+            Z
+          </div>
+          {!collapsed && (
+            <span className="text-sm font-semibold tracking-tight text-sidebar-foreground">
               Innocen<span className="text-gold">Z</span>
             </span>
-          </div>
+          )}
         </div>
       </SidebarHeader>
-      <SidebarContent>
-        <ScrollArea className="flex-1 px-3 py-4">
-          <SidebarGroup className="space-y-1">
-            <SidebarMenu>
-              {allNavigationItems.map(
-                (link) =>
-                  accessControl(link) &&
-                  (link.children?.length ? (
-                    <SidebarNavGroup
-                      key={`nav-${link.key}`}
-                      link={link}
-                      isActive={isActive}
-                      isSectionActive={isSectionActive(link)}
-                      accessControl={accessControl}
-                    />
-                  ) : (
-                    <SidebarMenuItem key={`nav-${link.key}`} title={link.title}>
-                      <SidebarMenuButton
-                        asChild
-                        isActive={isActive(link.href)}
-                        size="lg"
-                        className="rounded-lg"
-                      >
-                        <Link to={link.href}>
-                          <link.icon className="h-5 w-5" />
-                          <span>{link.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )),
-              )}
-            </SidebarMenu>
-          </SidebarGroup>
+
+      <SidebarContent className="relative">
+        <ScrollArea className="h-full px-2 py-3">
+          <nav aria-label="Admin navigation" className="space-y-4">
+            {sidebarSections.map((section) => (
+              <SidebarSectionGroup
+                key={section.key}
+                section={section}
+                collapsed={collapsed}
+                isActive={isActive}
+                canAccess={canAccess}
+              />
+            ))}
+          </nav>
         </ScrollArea>
       </SidebarContent>
+
+      <SidebarCollapseToggle />
     </SidebarUi>
   )
 }
 
-function SidebarNavGroup({
-  link,
+function SidebarSectionGroup({
+  section,
+  collapsed,
   isActive,
-  isSectionActive,
-  accessControl,
+  canAccess,
 }: {
-  link: NavLinkSchemaType
+  section: SidebarSection
+  collapsed: boolean
   isActive: (href: string) => boolean
-  isSectionActive: boolean
-  accessControl: (link: NavLinkSchemaType) => boolean
+  canAccess: (item: SidebarNavItem) => boolean
 }) {
-  const [open, setOpen] = useState(isSectionActive)
+  const visibleItems = section.items.filter(canAccess)
+  const sectionActive = visibleItems.some((item) => isActive(item.href))
+  const [open, setOpen] = useState(true)
 
   useEffect(() => {
-    if (isSectionActive) setOpen(true)
-  }, [isSectionActive])
+    if (sectionActive) setOpen(true)
+  }, [sectionActive])
 
-  const visibleChildren =
-    link.children?.filter((child) => accessControl(child)) ?? []
-
-  if (visibleChildren.length === 0) return null
+  if (visibleItems.length === 0) return null
 
   return (
-    <SidebarMenuItem>
-      <SidebarMenuButton
-        type="button"
-        isActive={isSectionActive}
-        size="lg"
-        className="rounded-lg"
-        onClick={() => setOpen((value) => !value)}
-      >
-        <link.icon className="h-5 w-5" />
-        <span>{link.title}</span>
-        <ChevronDown
-          className={cn(
-            'ml-auto h-4 w-4 transition-transform',
-            open && 'rotate-180',
-          )}
-        />
-      </SidebarMenuButton>
-
-      {open && (
-        <SidebarMenuSub className="border-(--lavender-soft)/40">
-          {visibleChildren.map((child) => (
-            <SidebarMenuSubItem key={child.key}>
-              <SidebarMenuSubButton
-                asChild
-                isActive={isActive(child.href)}
-                className="rounded-md"
-              >
-                <Link to={child.href}>
-                  <child.icon className="h-4 w-4" />
-                  <span>{child.title}</span>
-                </Link>
-              </SidebarMenuSubButton>
-            </SidebarMenuSubItem>
-          ))}
-        </SidebarMenuSub>
+    <div className="admin-sidebar-section">
+      {!collapsed && (
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          className="admin-sidebar-section-header"
+          aria-expanded={open}
+        >
+          <span>{section.label}</span>
+          <ChevronDown
+            className={cn(
+              'h-3.5 w-3.5 shrink-0 transition-transform duration-200',
+              open && 'rotate-180',
+            )}
+          />
+        </button>
       )}
-    </SidebarMenuItem>
+
+      {(open || collapsed) && (
+        <ul className={cn('space-y-0.5', collapsed && 'space-y-1')}>
+          {visibleItems.map((item) => (
+            <li key={item.key}>
+              <Link
+                to={item.href}
+                title={collapsed ? item.title : undefined}
+                className={cn(
+                  'admin-sidebar-nav-item',
+                  isActive(item.href) && 'admin-sidebar-nav-item-active',
+                  collapsed && 'justify-center px-2',
+                )}
+              >
+                <item.icon className="h-[18px] w-[18px] shrink-0" />
+                {!collapsed && (
+                  <>
+                    <span className="flex-1 truncate">{item.title}</span>
+                    {item.badge != null && item.badge > 0 && (
+                      <span className="admin-sidebar-badge">{item.badge}</span>
+                    )}
+                  </>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function SidebarCollapseToggle() {
+  const { state, toggleSidebar } = useSidebar()
+  const collapsed = state === 'collapsed'
+
+  return (
+    <button
+      type="button"
+      onClick={toggleSidebar}
+      className="admin-sidebar-collapse-toggle"
+      aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+    >
+      <ChevronLeft
+        className={cn(
+          'h-3.5 w-3.5 transition-transform duration-200',
+          collapsed && 'rotate-180',
+        )}
+      />
+    </button>
   )
 }

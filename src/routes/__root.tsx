@@ -1,6 +1,5 @@
 import {
   HeadContent,
-  Link,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
@@ -16,6 +15,7 @@ import type { QueryClient } from '@tanstack/react-query'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { NotFoundPage, notFoundHead } from './not-found'
 
 interface MyRouterContext extends ApolloClientIntegration.RouterContext {
   queryClient: QueryClient
@@ -28,16 +28,24 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     }
   },
 
-  notFoundComponent: NotFound,
+  notFoundComponent: NotFoundPage,
 
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Innocenz Admin' },
-    ],
-    links: [{ rel: 'stylesheet', href: appCss }],
-  }),
+  head: ({ matches }) => {
+    const isNotFound = matches.some(
+      (match) => match.status === 'notFound' || match.globalNotFound,
+    )
+
+    return {
+      meta: [
+        { charSet: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        ...(isNotFound
+          ? (notFoundHead().meta ?? [])
+          : [{ title: 'Innocenz' }]),
+      ],
+      links: [{ rel: 'stylesheet', href: appCss }],
+    }
+  },
 
   shellComponent: RootDocument,
 })
@@ -71,25 +79,3 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   )
 }
 
-function NotFound() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
-      <div className="text-center">
-        <h1 className="text-8xl font-bold text-primary">404</h1>
-        <h2 className="mt-4 text-2xl font-semibold text-foreground">
-          Page Not Found
-        </h2>
-        <p className="mt-2 text-muted-foreground">
-          Sorry, the page you&apos;re looking for doesn&apos;t exist or has been
-          moved.
-        </p>
-        <Link
-          to="/login"
-          className="mt-6 inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
-        >
-          Go to sign in
-        </Link>
-      </div>
-    </div>
-  )
-}

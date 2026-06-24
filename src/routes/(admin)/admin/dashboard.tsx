@@ -9,7 +9,7 @@ import {
 import { LayoutDashboard, Users, Shield, Settings } from 'lucide-react'
 import { useCurrentUser } from '@/lib/auth/use-current-user'
 
-export const Route = createFileRoute('/admin/dashboard')({
+export const Route = createFileRoute('/(admin)/admin/dashboard')({
   component: DashboardComponent,
   head: () => ({
     meta: [{ title: 'Dashboard — Innocenz Admin' }],

@@ -1,86 +1,168 @@
-import { getClient } from '@/lib/axios-v1'
+import { graphqlRequest } from '@/lib/graphql-request'
 import type {
-  AuditLogApiResponse,
+  AuditLog,
   AuditLogFiltersApiResponse,
   AuditLogsApiResponse,
   AuditLogsQueryParams,
 } from './types'
 
-function buildQueryParams(
-  params: Record<string, string | number | undefined>,
-): string {
-  const queryParams = new URLSearchParams()
+const KNOWN_AUDIT_ROLES = ['admin', 'pr', 'outlet', 'agency']
 
-  for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== '') {
-      queryParams.append(key, String(value))
+const AUDIT_LOGS_QUERY = `
+  query AuditLogs(
+    $filter: AuditLogFilterInput
+    $sort: AuditLogSort
+    $pageSize: Int
+    $pageNumber: Int
+  ) {
+    auditLogs(
+      filter: $filter
+      sort: $sort
+      pageSize: $pageSize
+      pageNumber: $pageNumber
+    ) {
+      query {
+        auditLogId
+        userId
+        userName
+        role
+        action
+        entity
+        entityId
+        oldData
+        newData
+        ipAddress
+        userAgent
+        createdAt
+      }
+      pagination {
+        count
+        totalCount
+        currentPage
+        totalPages
+        hasNextPage
+        hasPrevPage
+      }
     }
   }
+`
 
-  const queryString = queryParams.toString()
-  return queryString ? `?${queryString}` : ''
+const AUDIT_LOG_ACTIONS_QUERY = `
+  query AuditLogActions {
+    auditLogActions
+  }
+`
+
+const AUDIT_LOG_ENTITIES_QUERY = `
+  query AuditLogEntities {
+    auditLogEntities
+  }
+`
+
+interface GraphqlAuditLog {
+  auditLogId: string
+  userId: string | null
+  userName: string | null
+  role: string | null
+  action: string
+  entity: string
+  entityId: string | null
+  oldData: Record<string, unknown> | null
+  newData: Record<string, unknown> | null
+  ipAddress: string
+  userAgent: string
+  createdAt: string
+}
+
+function mapAuditLog(log: GraphqlAuditLog): AuditLog {
+  return {
+    auditLogId: Number.parseInt(log.auditLogId, 10),
+    userId: log.userId,
+    userName: log.userName,
+    role: log.role,
+    action: log.action,
+    entity: log.entity,
+    entityId: log.entityId,
+    oldData: log.oldData,
+    newData: log.newData,
+    ipAddress: log.ipAddress,
+    userAgent: log.userAgent,
+    createdAt: log.createdAt,
+  }
+}
+
+function filterLogsByRole(logs: AuditLog[], role?: string): AuditLog[] {
+  if (!role) return logs
+
+  if (role === 'others') {
+    return logs.filter(
+      (log) => !log.role || !KNOWN_AUDIT_ROLES.includes(log.role),
+    )
+  }
+
+  return logs.filter((log) => log.role === role)
 }
 
 export async function fetchAuditLogs(
   params: AuditLogsQueryParams = {},
-  onRefreshFail: () => void,
 ): Promise<AuditLogsApiResponse> {
-  const client = getClient(onRefreshFail)
-  const queryString = buildQueryParams({
-    dateFrom: params.dateFrom,
-    dateTo: params.dateTo,
-    userId: params.userId,
-    role: params.role,
-    entity: params.entity,
-    entityId: params.entityId,
-    action: params.action,
-    page: params.page,
+  const data = await graphqlRequest<{
+    auditLogs: {
+      query: GraphqlAuditLog[]
+      pagination: AuditLogsApiResponse['pagination']
+    }
+  }>(AUDIT_LOGS_QUERY, {
+    filter: {
+      dateFrom: params.dateFrom,
+      dateTo: params.dateTo,
+      userId: params.userId,
+      entity: params.entity,
+      entityId: params.entityId,
+      action: params.action,
+    },
+    sort: params.sortField
+      ? {
+          field: params.sortField,
+          direction: params.sortDirection ?? 'DESC',
+        }
+      : undefined,
     pageSize: params.pageSize,
-    sortField: params.sortField,
-    sortDirection: params.sortDirection,
+    pageNumber: params.page,
   })
 
-  const response = await client.get<AuditLogsApiResponse>(
-    `/audit-log${queryString}`,
+  const filteredQuery = filterLogsByRole(
+    data.auditLogs.query.map(mapAuditLog),
+    params.role,
   )
-  return response.data
+
+  return {
+    success: true,
+    message: 'OK',
+    query: filteredQuery,
+    pagination: data.auditLogs.pagination,
+  }
 }
 
-export async function fetchAuditLogById(
-  id: number,
-  onRefreshFail: () => void,
-): Promise<AuditLogApiResponse> {
-  const client = getClient(onRefreshFail)
-  const response = await client.get<AuditLogApiResponse>(`/audit-log/${id}`)
-  return response.data
+export async function fetchAuditLogActions(): Promise<AuditLogFiltersApiResponse> {
+  const data = await graphqlRequest<{ auditLogActions: string[] }>(
+    AUDIT_LOG_ACTIONS_QUERY,
+  )
+
+  return {
+    success: true,
+    message: 'OK',
+    data: data.auditLogActions,
+  }
 }
 
-export async function fetchAuditLogActions(
-  onRefreshFail: () => void,
-): Promise<AuditLogFiltersApiResponse> {
-  const client = getClient(onRefreshFail)
-  const response = await client.get<AuditLogFiltersApiResponse>(
-    '/audit-log/actions',
+export async function fetchAuditLogEntities(): Promise<AuditLogFiltersApiResponse> {
+  const data = await graphqlRequest<{ auditLogEntities: string[] }>(
+    AUDIT_LOG_ENTITIES_QUERY,
   )
-  return response.data
-}
 
-export async function fetchAuditLogEntities(
-  onRefreshFail: () => void,
-): Promise<AuditLogFiltersApiResponse> {
-  const client = getClient(onRefreshFail)
-  const response = await client.get<AuditLogFiltersApiResponse>(
-    '/audit-log/entities',
-  )
-  return response.data
-}
-
-export async function fetchAuditLogRoles(
-  onRefreshFail: () => void,
-): Promise<AuditLogFiltersApiResponse> {
-  const client = getClient(onRefreshFail)
-  const response = await client.get<AuditLogFiltersApiResponse>(
-    '/audit-log/roles',
-  )
-  return response.data
+  return {
+    success: true,
+    message: 'OK',
+    data: data.auditLogEntities,
+  }
 }

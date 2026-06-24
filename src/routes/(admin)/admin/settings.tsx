@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-export const Route = createFileRoute('/admin/settings')({
+export const Route = createFileRoute('/(admin)/admin/settings')({
   component: SettingsComponent,
   head: () => ({
     meta: [{ title: 'Settings — Innocenz Admin' }],

@@ -1,20 +1,21 @@
 import { Header } from '@/components/layout/header'
 import { Sidebar } from '@/components/layout/sidebar'
 import { GlobalLoadingShadow } from '@/components/ui/loading-shadow'
+import { SidebarInset } from '@/components/ui/sidebar'
 import { Outlet } from '@tanstack/react-router'
 
 export function AdminLayout() {
   return (
-    <div className="flex h-screen w-full overflow-hidden">
+    <div className="flex min-h-svh w-full">
       <Sidebar />
-      <div className="w-full">
+      <SidebarInset className="flex min-h-svh flex-col overflow-hidden">
         <Header />
-        <main className="w-full h-full overflow-y-auto">
+        <main className="flex-1 overflow-y-auto">
           <Outlet />
           <div className="mt-10 p-5" />
         </main>
-      </div>
-      <GlobalLoadingShadow />
+        <GlobalLoadingShadow />
+      </SidebarInset>
     </div>
   )
 }

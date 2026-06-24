@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useAuthActions } from '@/lib/auth/use-auth-actions'
 import { useCurrentUser } from '@/lib/auth/use-current-user'
 import { allNavigationItems } from '@/constants/links'
+import { getBusinessSectionByKey } from '@/constants/business-sections'
 import { getRbacSectionByKey } from '@/constants/rbac-sections'
 import { getUserTypeByKey } from '@/constants/user-types'
 import {
@@ -30,6 +31,14 @@ function useBreadcrumbSegments() {
     const rbacKey = pathname.split('/').pop()
     const rbacSection = rbacKey ? getRbacSectionByKey(rbacKey) : undefined
     if (rbacSection) return ['RBAC', rbacSection.title]
+  }
+
+  if (pathname.startsWith('/admin/business/')) {
+    const businessKey = pathname.split('/').pop()
+    const businessSection = businessKey
+      ? getBusinessSectionByKey(businessKey)
+      : undefined
+    if (businessSection) return ['Business', businessSection.title]
   }
 
   const match = allNavigationItems.find((item) => {

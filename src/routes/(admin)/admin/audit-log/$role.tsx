@@ -1,11 +1,16 @@
-import { createFileRoute, Navigate } from '@tanstack/react-router'
-import { AuditLogTableView } from '@/components/audit-log/audit-log-table-view'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { AuditLogTableView } from '@/components/audit-log'
 import {
   getAuditLogRoleBySlug,
   isAuditLogRoleSlug,
-} from '@/constants/audit-log-roles';
+} from '@/constants/audit-log-roles'
 
-export const Route = createFileRoute('/admin/audit-log/$role')({
+export const Route = createFileRoute('/(admin)/admin/audit-log/$role')({
+  beforeLoad: ({ params }) => {
+    if (!isAuditLogRoleSlug(params.role)) {
+      throw redirect({ to: '/admin/audit-log' })
+    }
+  },
   component: AuditLogRolePage,
   head: ({ params }) => {
     const roleMeta = getAuditLogRoleBySlug(params.role)
@@ -21,11 +26,6 @@ export const Route = createFileRoute('/admin/audit-log/$role')({
 
 function AuditLogRolePage() {
   const { role: roleSlug } = Route.useParams()
-
-  if (!isAuditLogRoleSlug(roleSlug)) {
-    return <Navigate to="/admin/audit-log" />
-  }
-
   const roleMeta = getAuditLogRoleBySlug(roleSlug)!
   return <AuditLogTableView role={roleMeta.key} />
 }

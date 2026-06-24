@@ -16,7 +16,7 @@ import {
   type RolesQueryParams,
 } from '@/services/rbac'
 
-export const Route = createFileRoute('/admin/rbac/role')({
+export const Route = createFileRoute('/(admin)/admin/rbac/role')({
   component: RolePage,
   head: () => ({
     meta: [{ title: 'Role Management — Innocenz Admin' }],
