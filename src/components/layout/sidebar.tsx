@@ -133,7 +133,7 @@ function SidebarSectionGroup({
         </button>
       )}
 
-      {(open || collapsed) && (
+      {open && (
         <ul className={cn('space-y-0.5', collapsed && 'space-y-1')}>
           {visibleItems.map((item) => (
             <li key={item.key}>

@@ -104,7 +104,7 @@ export function AuditLogDetailDialog({
                     </span>
                   </div>
                   <p className="text-lg font-semibold">
-                    {log.userName ||
+                    {log.username ||
                       (log.userId ? truncateId(log.userId) : 'System')}
                   </p>
                   {log.role && (

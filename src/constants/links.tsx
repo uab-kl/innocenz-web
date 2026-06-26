@@ -50,7 +50,7 @@ export const sidebarSections: SidebarSection[] = [
       {
         key: 'sidebar-dashboard',
         title: 'Dashboard',
-        href: '/admin/dashboard',
+        href: '/dashboard',
         icon: LayoutDashboard,
         allowedPermission: ['*'],
       },
@@ -96,7 +96,7 @@ export const sidebarSections: SidebarSection[] = [
       {
         key: 'sidebar-audit-log',
         title: 'Audit Log',
-        href: '/admin/audit-log',
+        href: '/audit-log',
         icon: FileText,
         allowedPermission: ['*'],
       },
@@ -108,7 +108,7 @@ export const allNavigationItems: NavLinkSchemaType[] = [
   {
     key: 'sidebar-dashboard',
     title: 'Dashboard',
-    href: '/admin/dashboard',
+    href: '/dashboard',
     icon: LayoutDashboard,
     allowedPermission: ['*'],
     variant: 'default',
@@ -116,7 +116,7 @@ export const allNavigationItems: NavLinkSchemaType[] = [
   {
     key: 'sidebar-user-management',
     title: 'User',
-    href: '/admin/user-management/admin',
+    href: '/user-management/admin',
     icon: Users,
     allowedPermission: ['*'],
     variant: 'default',
@@ -132,7 +132,7 @@ export const allNavigationItems: NavLinkSchemaType[] = [
   {
     key: 'sidebar-rbac',
     title: 'RBAC',
-    href: '/admin/rbac/role',
+    href: '/rbac/role',
     icon: Shield,
     allowedPermission: ['*'],
     variant: 'default',
@@ -148,7 +148,7 @@ export const allNavigationItems: NavLinkSchemaType[] = [
   {
     key: 'sidebar-audit-log',
     title: 'Audit Log',
-    href: '/admin/audit-log',
+    href: '/audit-log',
     icon: FileText,
     allowedPermission: ['*'],
     variant: 'default',

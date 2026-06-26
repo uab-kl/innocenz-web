@@ -13,6 +13,7 @@ import appCss from '../styles.css?url'
 import type { ApolloClientIntegration } from '@apollo/client-integration-tanstack-start'
 import type { QueryClient } from '@tanstack/react-query'
 import { SidebarProvider } from '@/components/ui/sidebar'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { NotFoundPage, notFoundHead } from './not-found'
@@ -52,27 +53,29 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={getLocale()}>
+    <html lang={getLocale()} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
-        <TooltipProvider>
-          <AuthProvider>
-            <SidebarProvider defaultOpen={true}>{children}</SidebarProvider>
-          </AuthProvider>
-        </TooltipProvider>
-        <TanStackDevtools
-          config={{ position: 'bottom-right' }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
-        />
-        <Toaster />
+        <ThemeProvider>
+          <TooltipProvider>
+            <AuthProvider>
+              <SidebarProvider defaultOpen={true}>{children}</SidebarProvider>
+            </AuthProvider>
+          </TooltipProvider>
+          <TanStackDevtools
+            config={{ position: 'bottom-right' }}
+            plugins={[
+              {
+                name: 'Tanstack Router',
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+              TanStackQueryDevtools,
+            ]}
+          />
+          <Toaster />
+        </ThemeProvider>
         <Scripts />
       </body>
     </html>

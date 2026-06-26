@@ -3,7 +3,7 @@ import type { Pagination } from '@/lib/pagination/pagination'
 export interface AuditLog {
   auditLogId: number
   userId: string | null
-  userName: string | null
+  username: string | null
   role: string | null
   action: string
   entity: string

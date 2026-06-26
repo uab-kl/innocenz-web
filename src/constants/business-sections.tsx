@@ -2,10 +2,10 @@ import { CreditCard } from 'lucide-react'
 
 export const businessSections = [
   {
-    key: 'subscription',
-    title: 'Subscription',
-    description: 'Manage agency subscription plans and billing.',
-    href: '/admin/business/subscription',
+    key: 'plan',
+    title: 'Plan',
+    description: 'Manage agency plans, limit types, and billing.',
+    href: '/business/plan',
     icon: CreditCard,
   },
 ] as const

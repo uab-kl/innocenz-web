@@ -144,7 +144,7 @@ export function AuditLogTableView({ role }: AuditLogTableViewProps) {
             className="-ml-2 mb-2 h-8 px-2 text-muted-foreground"
             asChild
           >
-            <Link to="/admin/audit-log">
+            <Link to="/audit-log">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to roles
             </Link>
@@ -311,7 +311,7 @@ export function AuditLogTableView({ role }: AuditLogTableViewProps) {
                       <TableCell>
                         <div className="flex flex-col">
                           <span className="font-medium">
-                            {log.userName ||
+                            {log.username ||
                               (log.userId ? truncateId(log.userId) : 'System')}
                           </span>
                           {log.role && (

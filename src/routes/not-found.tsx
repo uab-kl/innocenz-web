@@ -13,13 +13,13 @@ export function NotFoundPage() {
     <div className="fixed inset-0 z-50 flex min-h-svh w-full items-center justify-center bg-background px-6">
       <div className="flex w-full max-w-xl flex-col items-center text-center">
         <div className="mb-10 flex items-center justify-center gap-6">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gold-light to-gold-deep text-xl font-bold text-ink shadow-[0_0_24px_rgba(212,175,55,0.25)]">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-primary text-xl font-bold text-white dark:text-[#1a1726] shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_35%,transparent)]">
             Z
           </div>
 
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-secondary">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/15">
             <FileQuestion
-              className="h-9 w-9 text-lavender"
+              className="h-9 w-9 text-primary"
               strokeWidth={1.5}
             />
           </div>
@@ -34,8 +34,8 @@ export function NotFoundPage() {
           page might have been removed or the URL might be incorrect.
         </p>
 
-        <Button asChild size="lg" className="mt-8 h-10 px-6">
-          <Link to="/">
+        <Button asChild size="lg" className="mt-8 h-11 gap-2.5 px-8 text-white dark:text-[#1a1726]">
+          <Link to="/" className="text-inherit [&_svg]:text-inherit">
             <Home className="h-4 w-4" />
             Back to home
           </Link>

@@ -1,43 +1,13 @@
 import { getClient } from '@/lib/axios-v1'
-import type { CreateRoleInput } from './schemas'
-import type { RoleApiResponse, RbacRole, RolesApiResponse, RolesQueryParams } from './types'
-
-interface BackendRole {
-  id: string
-  roleName: string
-  status: string
-  createdAt: string
-  updatedAt: string
-  createdBy: string
-  updatedBy: string
-}
-
-function buildQueryParams(
-  params: Record<string, string | number | undefined>,
-): string {
-  const queryParams = new URLSearchParams()
-
-  for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== '') {
-      queryParams.append(key, String(value))
-    }
-  }
-
-  const queryString = queryParams.toString()
-  return queryString ? `?${queryString}` : ''
-}
-
-function mapRole(role: BackendRole): RbacRole {
-  return {
-    roleId: role.id,
-    roleName: role.roleName,
-    status: role.status as RbacRole['status'],
-    createdAt: role.createdAt,
-    updatedAt: role.updatedAt,
-    createdBy: role.createdBy,
-    updatedBy: role.updatedBy,
-  }
-}
+import { buildQueryParams } from '@/lib/build-query-params'
+import type { BackendRole } from './mappers'
+import { mapRole } from './mappers'
+import type { CreateRoleInput, UpdateRoleInput } from './schemas'
+import type {
+  RoleApiResponse,
+  RolesApiResponse,
+  RolesQueryParams,
+} from './types'
 
 export async function fetchRoles(
   params: RolesQueryParams = {},
@@ -47,6 +17,8 @@ export async function fetchRoles(
   const queryString = buildQueryParams({
     roleName: params.roleName ?? params.roleId,
     status: params.status,
+    page: params.page,
+    pageSize: params.pageSize,
   })
 
   const response = await client.get<{
@@ -64,15 +36,71 @@ export async function fetchRoles(
   }
 }
 
+export async function fetchRoleById(
+  roleId: string,
+  onRefreshFail: () => void,
+): Promise<RoleApiResponse> {
+  const client = getClient(onRefreshFail)
+  const response = await client.get<{
+    success: boolean
+    message: string
+    data: BackendRole
+  }>(`/rbac/role/${roleId}`)
+
+  return {
+    success: response.data.success,
+    message: response.data.message,
+    data: mapRole(response.data.data),
+  }
+}
+
 export async function createRole(
   input: CreateRoleInput,
   onRefreshFail: () => void,
 ): Promise<RoleApiResponse> {
   const client = getClient(onRefreshFail)
-  const response = await client.post<{ success: boolean; message: string; data: BackendRole }>(
-    '/rbac/role',
-    input,
-  )
+  const response = await client.post<{
+    success: boolean
+    message: string
+    data: BackendRole
+  }>('/rbac/role', input)
+
+  return {
+    success: response.data.success,
+    message: response.data.message,
+    data: mapRole(response.data.data),
+  }
+}
+
+export async function updateRole(
+  roleId: string,
+  input: UpdateRoleInput,
+  onRefreshFail: () => void,
+): Promise<RoleApiResponse> {
+  const client = getClient(onRefreshFail)
+  const response = await client.put<{
+    success: boolean
+    message: string
+    data: BackendRole
+  }>(`/rbac/role/${roleId}`, input)
+
+  return {
+    success: response.data.success,
+    message: response.data.message,
+    data: mapRole(response.data.data),
+  }
+}
+
+export async function deactivateRole(
+  roleId: string,
+  onRefreshFail: () => void,
+): Promise<RoleApiResponse> {
+  const client = getClient(onRefreshFail)
+  const response = await client.put<{
+    success: boolean
+    message: string
+    data: BackendRole
+  }>(`/rbac/role/inactive/${roleId}`)
 
   return {
     success: response.data.success,

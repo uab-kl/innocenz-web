@@ -67,9 +67,16 @@ function RouteComponent() {
           email: value.email,
           password: value.password,
         })
-        navigate({ to: '/admin/dashboard' })
+        navigate({ to: '/dashboard' })
       } catch (err) {
         if (axios.isAxiosError(err)) {
+          if (!err.response) {
+            setError(
+              'Internal server error.',
+            )
+            return
+          }
+
           const message =
             (err.response?.data as { message?: string })?.message ||
             'Invalid email or password. Please try again.'
@@ -289,7 +296,7 @@ function RouteComponent() {
                 <Button
                   type="submit"
                   form="login-form"
-                  className="mt-5 h-10 w-full bg-gold text-sm font-semibold text-gold-foreground hover:bg-gold-bright"
+                  className="mt-5 h-10 w-full bg-primary text-sm font-semibold text-white hover:bg-primary/90 dark:text-[#1a1726] dark:hover:text-[#1a1726] dark:hover:bg-primary/90"
                   disabled={isSubmitting || !canSubmit}
                   aria-busy={isSubmitting}
                 >

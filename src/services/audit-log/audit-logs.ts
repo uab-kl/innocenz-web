@@ -24,7 +24,7 @@ const AUDIT_LOGS_QUERY = `
       query {
         auditLogId
         userId
-        userName
+        username
         role
         action
         entity
@@ -62,7 +62,7 @@ const AUDIT_LOG_ENTITIES_QUERY = `
 interface GraphqlAuditLog {
   auditLogId: string
   userId: string | null
-  userName: string | null
+  username: string | null
   role: string | null
   action: string
   entity: string
@@ -78,7 +78,7 @@ function mapAuditLog(log: GraphqlAuditLog): AuditLog {
   return {
     auditLogId: Number.parseInt(log.auditLogId, 10),
     userId: log.userId,
-    userName: log.userName,
+    username: log.username,
     role: log.role,
     action: log.action,
     entity: log.entity,

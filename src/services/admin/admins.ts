@@ -1,52 +1,14 @@
 import { getClient } from '@/lib/axios-v1'
 import { getRoleIdByName } from '@/services/rbac/roles'
+import { buildQueryParams } from '@/lib/build-query-params'
+import type { BackendUser } from './mappers'
+import { mapAdminUser } from './mappers'
 import type { CreateAdminInput } from './schemas'
 import type {
   AdminApiResponse,
-  AdminUser,
   AdminsApiResponse,
   AdminsQueryParams,
 } from './types'
-
-interface BackendUser {
-  id: string
-  email: string | null
-  phoneNum: string | null
-  accName: string
-  status: string
-  createdAt: string
-  updatedAt: string
-  createdBy: string
-  updatedBy: string
-}
-
-function buildQueryParams(
-  params: Record<string, string | number | undefined>,
-): string {
-  const queryParams = new URLSearchParams()
-
-  for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== '') {
-      queryParams.append(key, String(value))
-    }
-  }
-
-  const queryString = queryParams.toString()
-  return queryString ? `?${queryString}` : ''
-}
-
-function mapAdminUser(user: BackendUser): AdminUser {
-  return {
-    id: user.id,
-    email: user.email ?? '',
-    displayName: user.accName,
-    status: user.status,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-    createdBy: user.createdBy,
-    updatedBy: user.updatedBy,
-  }
-}
 
 export async function fetchAdmins(
   params: AdminsQueryParams = {},
@@ -110,7 +72,7 @@ export async function createAdmin(
   }>('/auth/register', {
     email: input.email,
     phoneNum: `+admin-${crypto.randomUUID().replace(/-/g, '').slice(0, 12)}`,
-    accName: input.displayName,
+    username: input.displayName,
     password: input.password,
     roleId: adminRoleId,
   })

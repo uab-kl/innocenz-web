@@ -27,6 +27,11 @@ export function getErrorMessage(error: unknown): string {
   return 'Something went wrong'
 }
 
+export function formatRoleLabel(roleName: string): string {
+  if (!roleName) return roleName
+  return roleName.charAt(0).toUpperCase() + roleName.slice(1)
+}
+
 export const statusColors: Record<string, string> = {
   active:
     'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
@@ -72,8 +77,4 @@ export function truncateId(id: string, length = 8) {
 export function formatAuditEntity(entity: string) {
   if (entity === 'Role') return 'role'
   return entity
-}
-
-export function formatRoleLabel(role: string) {
-  return role.charAt(0).toUpperCase() + role.slice(1)
 }

@@ -15,18 +15,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import type { RbacRole } from '@/services/rbac'
+import type { RbacPagination, RbacRole } from '@/services/rbac'
 import { getErrorMessage, statusColors } from '@/lib/utils'
 
 export type RoleStatusFilter = 'all' | 'active' | 'inactive'
 
 interface RolesGridProps {
   roles: RbacRole[]
+  pagination?: RbacPagination
+  page: number
+  pageSize: number
   isLoading: boolean
+  isFetching: boolean
   isError: boolean
   error: Error | null
   statusFilter: RoleStatusFilter
   onStatusFilterChange: (value: RoleStatusFilter) => void
+  onPageChange: (page: number) => void
   onRetry: () => void
   onCreateClick: () => void
   onRoleClick: (role: RbacRole) => void
@@ -34,11 +39,16 @@ interface RolesGridProps {
 
 export function RolesGrid({
   roles,
+  pagination,
+  page,
+  pageSize,
   isLoading,
+  isFetching,
   isError,
   error,
   statusFilter,
   onStatusFilterChange,
+  onPageChange,
   onRetry,
   onCreateClick,
   onRoleClick,
@@ -62,6 +72,9 @@ export function RolesGrid({
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
+          {isFetching && (
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+          )}
         </div>
 
         <Button onClick={onCreateClick} className="shrink-0">
@@ -126,6 +139,43 @@ export function RolesGrid({
               </div>
             </button>
           ))}
+        </div>
+      )}
+
+      {pagination && pagination.totalCount > 0 && (
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div>
+            Showing{' '}
+            <span className="font-medium">
+              {(pagination.page - 1) * pageSize + 1}
+            </span>{' '}
+            -{' '}
+            <span className="font-medium">
+              {Math.min(pagination.page * pageSize, pagination.totalCount)}
+            </span>{' '}
+            of <span className="font-medium">{pagination.totalCount}</span> roles
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!pagination.hasPrevPage || isFetching}
+              onClick={() => onPageChange(page - 1)}
+            >
+              Previous
+            </Button>
+            <span>
+              Page {pagination.page} of {pagination.totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={!pagination.hasNextPage || isFetching}
+              onClick={() => onPageChange(page + 1)}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       )}
     </div>

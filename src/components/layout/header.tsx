@@ -1,6 +1,7 @@
 import { ChevronDown, LogOut, User as UserIcon } from 'lucide-react'
 import { useLocation } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { useAuthActions } from '@/lib/auth/use-auth-actions'
 import { useCurrentUser } from '@/lib/auth/use-current-user'
 import { allNavigationItems } from '@/constants/links'
@@ -21,19 +22,19 @@ function useBreadcrumbSegments() {
   const location = useLocation()
   const pathname = location.pathname.replace(/^\/en/, '').replace(/\/$/, '')
 
-  if (pathname.startsWith('/admin/user-management/')) {
+  if (pathname.startsWith('/user-management/')) {
     const userTypeKey = pathname.split('/').pop()
     const userType = userTypeKey ? getUserTypeByKey(userTypeKey) : undefined
     if (userType) return ['User', userType.title]
   }
 
-  if (pathname.startsWith('/admin/rbac/')) {
+  if (pathname.startsWith('/rbac/')) {
     const rbacKey = pathname.split('/').pop()
     const rbacSection = rbacKey ? getRbacSectionByKey(rbacKey) : undefined
     if (rbacSection) return ['RBAC', rbacSection.title]
   }
 
-  if (pathname.startsWith('/admin/business/')) {
+  if (pathname.startsWith('/business/')) {
     const businessKey = pathname.split('/').pop()
     const businessSection = businessKey
       ? getBusinessSectionByKey(businessKey)
@@ -73,7 +74,7 @@ export function Header() {
             <span
               className={
                 index === breadcrumbSegments.length - 1
-                  ? 'text-gold'
+                  ? 'text-primary'
                   : 'text-foreground/80'
               }
             >
@@ -83,7 +84,10 @@ export function Header() {
         ))}
       </nav>
 
-      <DropdownMenu>
+      <div className="flex items-center gap-1">
+        <ThemeToggle />
+
+        <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
@@ -140,6 +144,7 @@ export function Header() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      </div>
     </header>
   )
 }

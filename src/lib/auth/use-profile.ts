@@ -15,7 +15,7 @@ interface BackendUser {
   id: string
   email: string | null
   phoneNum: string | null
-  accName: string
+  username: string
   status: string
 }
 
@@ -51,7 +51,7 @@ async function fetchProfile(): Promise<User> {
   return {
     id: profile.id,
     email: profile.email ?? '',
-    displayName: profile.accName,
+    displayName: profile.username,
     contactNo: profile.phoneNum ?? '',
     isActive: profile.status.toLowerCase() === 'active',
     roles: [],
