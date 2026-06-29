@@ -1,5 +1,15 @@
 import type { LimitType } from '@/services/subscription'
 
+import { formatNumber } from '@/lib/utils'
+
+function formatLimitValue(value: unknown): string {
+  if (typeof value === 'number') return formatNumber(value)
+  if (typeof value === 'string' && value.trim() !== '' && !Number.isNaN(Number(value))) {
+    return formatNumber(Number(value))
+  }
+  return value != null ? String(value) : ''
+}
+
 export function formatLimitConfigSummary(
   configSchema: Record<string, unknown> | null | undefined,
 ): string {
@@ -14,12 +24,12 @@ export function formatLimitConfigSummary(
   if (type === 'rate' && value != null) {
     const periodLabel = period ? ` / ${period.replace(/_/g, ' ')}` : ''
     const perLabel = per ? ` per ${per.replace(/_/g, ' ')}` : ''
-    return `${value} ${unit}${perLabel}${periodLabel}`.trim()
+    return `${formatLimitValue(value)} ${unit}${perLabel}${periodLabel}`.trim()
   }
 
   if (type === 'number' && value != null) {
     const periodLabel = period ? ` / ${period.replace(/_/g, ' ')}` : ''
-    return `${value} ${unit}${periodLabel}`.trim()
+    return `${formatLimitValue(value)} ${unit}${periodLabel}`.trim()
   }
 
   if (type === 'boolean') {
@@ -31,7 +41,7 @@ export function formatLimitConfigSummary(
   }
 
   if (value != null) {
-    return String(value)
+    return formatLimitValue(value) || '—'
   }
 
   return '—'

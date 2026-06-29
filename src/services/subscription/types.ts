@@ -1,5 +1,5 @@
 export type SubscriptionStatus = 'active' | 'inactive'
-export type BillingCycle = 'monthly' | 'annually'
+export type BillingCycle = 'weekly' | 'monthly' | 'annually'
 
 export interface SubscriptionPagination {
   page: number

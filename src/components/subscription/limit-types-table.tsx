@@ -40,7 +40,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { formatDate, getErrorMessage, statusColors } from '@/lib/utils'
+import { formatDate, formatNumber, getErrorMessage, statusColors } from '@/lib/utils'
 import type {
   LimitType,
   SubscriptionPagination,
@@ -253,14 +253,14 @@ export function LimitTypesTable({
             <div>
               Showing{' '}
               <span className="font-medium">
-                {(pagination.page - 1) * pageSize + 1}
+                {formatNumber((pagination.page - 1) * pageSize + 1)}
               </span>{' '}
               -{' '}
               <span className="font-medium">
-                {Math.min(pagination.page * pageSize, pagination.totalCount)}
+                {formatNumber(Math.min(pagination.page * pageSize, pagination.totalCount))}
               </span>{' '}
               of{' '}
-              <span className="font-medium">{pagination.totalCount}</span>{' '}
+              <span className="font-medium">{formatNumber(pagination.totalCount)}</span>{' '}
               limit types
             </div>
             <div className="flex items-center gap-2">

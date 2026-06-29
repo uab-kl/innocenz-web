@@ -32,6 +32,21 @@ export function formatRoleLabel(roleName: string): string {
   return roleName.charAt(0).toUpperCase() + roleName.slice(1)
 }
 
+export function formatNumber(value: number | string | null | undefined): string {
+  const num = typeof value === 'string' ? Number(value) : value
+  if (num == null || Number.isNaN(num)) return '—'
+  return new Intl.NumberFormat('en-MY').format(num)
+}
+
+export function formatPrice(value: number | string | null | undefined): string {
+  const num = typeof value === 'string' ? Number(value) : value
+  if (num == null || Number.isNaN(num)) return '—'
+  return new Intl.NumberFormat('en-MY', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(num)
+}
+
 export const statusColors: Record<string, string> = {
   active:
     'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const billingCycleValues = ['monthly', 'annually'] as const
+export const billingCycleValues = ['weekly', 'monthly', 'annually'] as const
 
 export const SubscriptionSchema = z.object({
   name: z.string().min(1, 'Name is required').max(255),

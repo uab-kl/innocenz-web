@@ -65,7 +65,7 @@ export function SubscriptionFormSheet({
     defaultValues: {
       name: editTarget?.name ?? '',
       price: editTarget ? Number(editTarget.price) : 0,
-      billingCycle: (editTarget?.billingCycle ?? 'monthly') as 'monthly' | 'annually',
+      billingCycle: (editTarget?.billingCycle ?? 'monthly') as 'weekly' | 'monthly' | 'annually',
       status: (editTarget?.status ?? 'active') as 'active' | 'inactive',
       roleIds: editTarget?.roles.map((role) => role.id) ?? [],
     },
@@ -219,7 +219,7 @@ export function SubscriptionFormSheet({
                   <Select
                     value={field.state.value}
                     onValueChange={(value) =>
-                      field.handleChange(value as 'monthly' | 'annually')
+                      field.handleChange(value as 'weekly' | 'monthly' | 'annually')
                     }
                     disabled={isSubmitting}
                   >
@@ -227,6 +227,7 @@ export function SubscriptionFormSheet({
                       <SelectValue placeholder="Select billing cycle" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="weekly">Weekly</SelectItem>
                       <SelectItem value="monthly">Monthly</SelectItem>
                       <SelectItem value="annually">Annually</SelectItem>
                     </SelectContent>

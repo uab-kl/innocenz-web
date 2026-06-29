@@ -32,7 +32,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { formatDate, formatRoleLabel, getErrorMessage, statusColors } from '@/lib/utils'
+import { formatDate, formatPrice, formatNumber, formatRoleLabel, getErrorMessage, statusColors } from '@/lib/utils'
 import type { Subscription, SubscriptionPagination, SubscriptionStatus, BillingCycle } from '@/services/subscription'
 
 export type SubscriptionStatusFilter = 'all' | SubscriptionStatus
@@ -126,6 +126,7 @@ export function SubscriptionsTable({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Cycles</SelectItem>
+                <SelectItem value="weekly">Weekly</SelectItem>
                 <SelectItem value="monthly">Monthly</SelectItem>
                 <SelectItem value="annually">Annually</SelectItem>
               </SelectContent>
@@ -228,7 +229,7 @@ export function SubscriptionsTable({
                       )}
                     </TableCell>
                     <TableCell>
-                      {Number(sub.price).toFixed(2)} (RM)
+                      {formatPrice(sub.price)}
                     </TableCell>
                     <TableCell className="capitalize">{sub.billingCycle}</TableCell>
                     <TableCell>
@@ -269,14 +270,14 @@ export function SubscriptionsTable({
             <div>
               Showing{' '}
               <span className="font-medium">
-                {(pagination.page - 1) * pageSize + 1}
+                {formatNumber((pagination.page - 1) * pageSize + 1)}
               </span>{' '}
               -{' '}
               <span className="font-medium">
-                {Math.min(pagination.page * pageSize, pagination.totalCount)}
+                {formatNumber(Math.min(pagination.page * pageSize, pagination.totalCount))}
               </span>{' '}
               of{' '}
-              <span className="font-medium">{pagination.totalCount}</span>{' '}
+              <span className="font-medium">{formatNumber(pagination.totalCount)}</span>{' '}
               plans
             </div>
             <div className="flex items-center gap-2">

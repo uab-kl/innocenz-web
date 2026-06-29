@@ -37,7 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { formatDate, formatRoleLabel, getErrorMessage } from '@/lib/utils'
+import { formatDate, formatNumber, formatRoleLabel, getErrorMessage } from '@/lib/utils'
 import { formatLimitConfigSummary, findLimitTypeById } from '@/lib/limit-type-display'
 import type {
   SubscriptionFeature,
@@ -299,14 +299,14 @@ export function SubscriptionFeaturesTable({
             <div>
               Showing{' '}
               <span className="font-medium">
-                {(pagination.page - 1) * pageSize + 1}
+                {formatNumber((pagination.page - 1) * pageSize + 1)}
               </span>{' '}
               -{' '}
               <span className="font-medium">
-                {Math.min(pagination.page * pageSize, pagination.totalCount)}
+                {formatNumber(Math.min(pagination.page * pageSize, pagination.totalCount))}
               </span>{' '}
               of{' '}
-              <span className="font-medium">{pagination.totalCount}</span>{' '}
+              <span className="font-medium">{formatNumber(pagination.totalCount)}</span>{' '}
               features
             </div>
             <div className="flex items-center gap-2">
