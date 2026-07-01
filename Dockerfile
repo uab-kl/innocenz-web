@@ -25,5 +25,5 @@ COPY --from=builder /app/project.inlang /app/project.inlang
 
 RUN pnpm install --prod
 
-EXPOSE 3000
+EXPOSE 3001
 CMD ["node", ".output/server/index.mjs"]
