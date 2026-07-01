@@ -4,6 +4,12 @@ RUN corepack enable
 
 WORKDIR /app
 
+# Pass VITE vars from GitHub Actions build-args
+ARG VITE_API_URL
+ARG VITE_GRAPHQL_ENDPOINT
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_GRAPHQL_ENDPOINT=$VITE_GRAPHQL_ENDPOINT
+
 COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm install
